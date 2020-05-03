@@ -2,16 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Focus Tomato</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { margin:0; min-height:100vh; display:grid; place-items:center; font-family:system-ui,sans-serif; background:#1a0f0f; color:#ffe8e0; }
+    h1 { margin:0 0 0.5rem; }
+    #time { font-size:4rem; font-variant-numeric:tabular-nums; margin:1rem 0; }
+    .row { display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; }
+    button { background:#3a1f1f; color:#fff; border:1px solid #6a3030; border-radius:8px; padding:0.55rem 0.9rem; cursor:pointer; }
+    button.primary { background:#c0392b; border-color:#c0392b; }
+    #mode { color:#c9a; margin-bottom:0.5rem; }
+  </style>
 </head>
 <body>
-  <h1>Focus Tomato</h1>
-  <div id="mode">Focus</div>
-  <div id="time">25:00</div>
-  <button id="start">Start</button>
-  <button id="reset">Reset</button>
-  <p id="note">Stay home. Study hard. Touch grass later.</p>
-  <script src="timer.js"></script>
+  <main style="text-align:center">
+    <h1>Focus Tomato</h1>
+    <div id="mode">Focus · 25:00</div>
+    <div id="time">25:00</div>
+    <div class="row">
+      <button class="primary" id="start">Start</button>
+      <button id="pause">Pause</button>
+      <button id="reset">Reset</button>
+      <button id="skip">Skip</button>
+    </div>
+  </main>
+  <script>
+    const FOCUS = 25*60, BREAK = 5*60;
+    let left = FOCUS, focus = true, timer = null;
+    const timeEl = document.getElementById('time');
+    const modeEl = document.getElementById('mode');
+    function fmt(s){ const m=Math.floor(s/60), r=s%60; return String(m).padStart(2,'0')+':'+String(r).padStart(2,'0'); }
+    function render(){ timeEl.textContent = fmt(left); modeEl.textContent = (focus?'Focus':'Break') + ' · ' + fmt(focus?FOCUS:BREAK); }
+    function stop(){ if(timer){ clearInterval(timer); timer=null; } }
+    function next(){ focus=!focus; left = focus?FOCUS:BREAK; render(); }
+    document.getElementById('start').onclick = () => { if(timer) return; timer=setInterval(()=>{ if(left<=0){ stop(); next(); return;} left--; render(); },1000); };
+    document.getElementById('pause').onclick = stop;
+    document.getElementById('reset').onclick = () => { stop(); left = focus?FOCUS:BREAK; render(); };
+    document.getElementById('skip').onclick = () => { stop(); next(); };
+    render();
+  </script>
 </body>
 </html>

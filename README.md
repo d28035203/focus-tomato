@@ -1,7 +1,15 @@
 # Focus Tomato
 
-A no-install **25/5 pomodoro** for 2020 study sessions.
+No-install pomodoro timer in the browser: 25-minute focus blocks and 5-minute breaks.
 
-Open `index.html`. Work. Break. Repeat until the world reopens.
+## Run
 
-MIT · 2020
+```bash
+open index.html
+```
+
+Start, pause, reset, or skip the current phase.
+
+## License
+
+MIT
