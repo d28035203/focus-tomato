@@ -1,4 +1,4 @@
-# Lockdown Pomodoro
+# Focus Tomato
 
 A no-install **25/5 pomodoro** for 2020 study sessions.
 
